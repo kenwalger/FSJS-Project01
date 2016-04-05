@@ -5,6 +5,8 @@
  *
  */
 
+/* jshint -W030 */
+/* jshint -W097 */
 
 "use strict";
 
@@ -232,8 +234,8 @@ var handleIfEmpty = function(x, y) {
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
 
 function printQuote() {
-	
-	
+
+
 	// RANDOM RGB TO SET NEW COLOR WITH EACH NEW QUOTE
 	var r;
 	var g;
@@ -259,15 +261,15 @@ function printQuote() {
 	var rgb = "rgb(" + r + "," + g + "," + b + ")";
 	var rgb2 = "rgb(" + (r + 50) + "," + (g + 50) + "," + (b + 50) + ")";
 	var rgb3 = "rgb(" + (r + 75) + "," + (g + 75) + "," + (b + 75) + ")";
-	
+
 	body[0].style.background = rgb;
 	loadQuote.style.color = rgb2;
 	loadQuote.style.borderColor = rgb3;
-	
+
 	for (var i = 0; i < playPauseBar.length; i++) {
 		playPauseBar[i].style.background = rgb3;
 	}
-	
+
 	// CONDITIONALLY SELECT INDEX OF QUOTES ARRAY SO FIRST SELECTION IS RANDOM AND EACH QUOTE IN THE ARRAY IS 
 	// DISPLAYED BEFORE REPEATING  
 	if (quoteToggle) {
@@ -275,19 +277,19 @@ function printQuote() {
 		quoteIndex = quotes.indexOf(quo);
 		quoteToggle = false;
 	} else if (!quoteToggle) {
-		if (quoteIndex < quotes.length - 1) {	
+		if (quoteIndex < quotes.length - 1) {
 			quoteIndex += 1;
 		} else {
 			quoteIndex = 0;
-		}	
+		}
 	}
-	
+
 	// PRINT TO THE SCREEN
 	quote[0].innerHTML = quotes[quoteIndex].quote;
 	source[0].innerHTML = quotes[quoteIndex].source;
 	handleIfEmpty(citation, quotes[quoteIndex].citation);
 	handleIfEmpty(year, quotes[quoteIndex].year);
-	
+
 	// SET FONT SIZE DEPENDING ON LENGTH OF QUOTE
 	if (width > 749) {
 		if (quotes[quoteIndex].quote.length < 125) {
@@ -328,30 +330,30 @@ var handleTransform = function(what, howMuch) {
 // PLAY/PAUSE BUTTON TO START AND STOP AUTO REFRESH QUOTE EVERY 30 SECONDS
 playPause.addEventListener("click", playQuote, false);
 function playQuote(e) {
-	
+
 	var opac;
 	var topTurn;
 	var bottomTurn;
 	var playPauseOrientation;
-	
+
 	if (playPauseToggle) {
 		// PREVENT LINK DEFAULT FUNCTION
 		e.preventDefault;
-		
+
 		// CHANGE QUOTE ONCE IMMEDIATELY SO THE BUTTON DOESN'T APPEAR TO BE BROKEN
 		printQuote();
-		
+
 		// NEW TOOL TIP
 		playPauseInstruction[0].innerHTML = "Pause auto refresh";
-		
+
 		// CHANGE QUOTE EVERY 30 SECONDS
 		quoteCycle = setInterval(printQuote, 30000);
-		
+
 		opac = 1;
 		topTurn = 30;
 		bottomTurn = -30;
 		playPauseOrientation = 0;
-		
+
 		// ANIMATE TRANSITION BETWEEN BUTTON PLAY AND PAUSE STATE
 		var convertToPause = setInterval(function() {
 			opac -= 0.01;
@@ -371,34 +373,34 @@ function playQuote(e) {
 				handleTransform(playPause, playPauseOrientation);
 			}
 		}, 10);
-		
+
 		playPauseToggle = false;
 	} else if (!playPauseToggle) {
 		// PREVENT LINK DEFAULT FUNCTION
 		e.preventDefault;
-		
+
 		// STOP NEW QUOTE AUTO REFRESH
 		clearInterval(quoteCycle);
-		
+
 		// NEW TOOL TIP
 		playPauseInstruction[0].innerHTML = "Refresh quote every 30 sec";
-		
+
 		opac = 0;
 		topTurn = 0;
 		bottomTurn = 0;
 		playPauseOrientation = 90;
-		
+
 		// ANIMATE TRANSITION BETWEEN BUTTON PLAY AND PAUSE STATE
 		var convertToPlay = setInterval(function() {
 			opac += 0.01;
 			topTurn += 0.5;
 			bottomTurn -= 0.5;
 			playPauseOrientation -= 1;
-			
+
 			if (opac < 1) {
 				bar2[0].style.opacity = opac;
 			}
-			
+
 			if (topTurn < 30) {
 				handleTransform(bar1[0], topTurn);
 			}
@@ -409,7 +411,7 @@ function playQuote(e) {
 				handleTransform(playPause, playPauseOrientation);
 			}
 		}, 10);
-		
+
 		playPauseToggle = true;
 	}
 }
